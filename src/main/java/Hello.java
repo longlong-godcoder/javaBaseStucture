@@ -15,7 +15,6 @@ public class Hello {
 
         BinaryTrees.println(bst);
 
-        bst.preorderTraversal();
     }
 
 
