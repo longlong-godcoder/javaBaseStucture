@@ -5,7 +5,7 @@ public class Hello {
 
     public static void main(String[] args) {
 
-        BST<Integer> bst = new BST<Integer>();
+        BST<Integer> bst = new BST<>();
 
         Integer[] integers = {7, 4, 9, 2, 5, 8, 11, 3};
 
@@ -14,6 +14,8 @@ public class Hello {
         }
 
         BinaryTrees.println(bst);
+
+        bst.preorderTraversal();
     }
 
 

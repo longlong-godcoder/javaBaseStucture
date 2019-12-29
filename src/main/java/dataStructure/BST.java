@@ -3,6 +3,8 @@ package dataStructure;
 import utils.printer.BinaryTreeInfo;
 
 import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class BST<E> implements BinaryTreeInfo{
 
@@ -29,6 +31,69 @@ public class BST<E> implements BinaryTreeInfo{
 
     }
 
+    /**
+     * 先序遍历
+     */
+    public void preorderTraversal(){
+        preorderTraversal(root);
+    }
+
+    private void preorderTraversal(Node<E> node){
+        if (node == null) return;
+        System.out.println(node.element);
+        preorderTraversal(node.left);
+        preorderTraversal(node.right);
+    }
+
+    /**
+     * 中序遍历
+     */
+    public void inorderTraversal(){
+        inorderTraversal(root);
+    }
+
+    private void inorderTraversal(Node<E> node){
+        if (node == null) return;
+        inorderTraversal(node.left);
+        System.out.println(node.element);
+        inorderTraversal(node.right);
+    }
+
+    /**
+     * 后序遍历
+     */
+    public void postorderTraversal(){
+
+    }
+
+    private void postorderTraversal(Node<E> node){
+        if (node == null) return;
+        postorderTraversal(node.left);
+        postorderTraversal(node.right);
+        System.out.println(node.element);
+    }
+
+    /**
+     * 层序遍历
+     */
+    public void levelorderTraversal(){
+        if (root == null) return;
+
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            Node<E> node = queue.poll();
+            System.out.println(node.element);
+            if (node.left != null){
+                queue.offer(node.left);
+            }
+            if (node.right != null){
+                queue.offer(node.right);
+            }
+        }
+
+    }
+
     public void add(E element){
         elementNotNullCheck(element);
 
@@ -49,6 +114,7 @@ public class BST<E> implements BinaryTreeInfo{
             }else if(cmp < 0){
                 node = node.left;
             }else {
+                node.element = element;
                 return;
             }
         }
