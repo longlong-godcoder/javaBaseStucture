@@ -69,6 +69,9 @@ public class BinaryTree<E> {
         visitor.stop = visitor.visit(node.element);
     }
 
+    /**
+     *  层序遍历
+     */
     public void levelOrder(Visitor<E> visitor){
         if (root == null || visitor == null) return;
 
@@ -76,8 +79,84 @@ public class BinaryTree<E> {
         queue.offer(root);
         while (!queue.isEmpty()){
             Node<E> node = queue.poll();
+            if (visitor.visit(node.element)) return;
 
+            if (node.left != null){
+                queue.offer(node.left);
+            }
+            if (node.right != null){
+                queue.offer(node.right);
+            }
         }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isComplete(){
+        if (root == null) return false;
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+
+        boolean leaf = false;
+        while (!queue.isEmpty()){
+            Node<E> node = queue.poll();
+            if (leaf && !node.isLeaf()) return false;
+
+            if (node.left != null){
+                queue.offer(node.left);
+            }else if (node.right != null){
+                return false;
+            }
+
+            if (node.right != null){
+                queue.offer(node.right);
+            }else {
+                leaf = true;
+            }
+        }
+
+        return true;
+    }
+
+    public int height2(){
+        if (root == null) return 0;
+
+        int height = 0;
+        int levelSize = 1;
+
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()){
+            Node<E> node = queue.poll();
+            levelSize --;
+
+            if (node.left != null){
+                queue.offer(node.left);
+            }
+
+            if (node.right != null){
+                queue.offer(node.right);
+            }
+
+            if (levelSize == 0){
+                levelSize = queue.size();
+                height ++;
+            }
+        }
+
+        return height;
+    }
+
+    public int height(){
+        return height(root);
+    }
+
+    private int height(Node<E> node){
+        if (root == null) return 0;
+        return 1 + Math.max(height(node.left), height(node.right));
     }
 
     public static abstract class Visitor<E> {
