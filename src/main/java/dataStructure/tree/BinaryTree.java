@@ -1,9 +1,12 @@
 package dataStructure.tree;
 
+import utils.printer.BinaryTreeInfo;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BinaryTree<E> {
+@SuppressWarnings("unchecked")
+public class BinaryTree<E> implements BinaryTreeInfo {
 
     protected int size;
     protected Node<E> root;
@@ -21,6 +24,9 @@ public class BinaryTree<E> {
         size = 0;
     }
 
+    public Node<E> createNode(E element, Node<E> parent){
+        return new Node<>(element, parent);
+    }
     /**
      * 先序遍历
      */
@@ -91,8 +97,7 @@ public class BinaryTree<E> {
     }
 
     /**
-     *
-     * @return
+     *  判断是否为完全二叉树
      */
     public boolean isComplete(){
         if (root == null) return false;
@@ -119,7 +124,10 @@ public class BinaryTree<E> {
 
         return true;
     }
-
+    /**
+     *  层序遍历求高度
+     *  每遍历完一层，队列的size就是这一层元素的size
+     */
     public int height2(){
         if (root == null) return 0;
 
@@ -154,9 +162,68 @@ public class BinaryTree<E> {
         return height(root);
     }
 
+    /**
+     *  递归调用求高度
+     */
     private int height(Node<E> node){
         if (root == null) return 0;
         return 1 + Math.max(height(node.left), height(node.right));
+    }
+
+    protected Node<E> predecessor(Node<E> node){
+        if (node == null) return null;
+
+        Node<E> p = node.left;
+        if (p != null){
+            while (p.right != null){
+                p = p.right;
+            }
+            return p;
+        }
+
+        while (node.parent != null && node == node.parent.left){
+            node = node.parent;
+        }
+
+        return node.parent;
+    }
+
+    protected Node<E> successor(Node<E> node){
+        if (node == null) return null;
+
+        Node<E> p = node.right;
+        if (p != null){
+            while (p.left != null){
+                p = p.left;
+            }
+            return p;
+        }
+
+        while (node.parent != null && node == node.parent.right){
+            node = node.parent;
+        }
+
+        return node.parent;
+    }
+
+    @Override
+    public Object root() {
+        return root;
+    }
+
+    @Override
+    public Object left(Object node) {
+        return ((Node<E>)node).left;
+    }
+
+    @Override
+    public Object right(Object node) {
+        return ((Node<E>)node).right;
+    }
+
+    @Override
+    public Object string(Object node) {
+        return node;
     }
 
     public static abstract class Visitor<E> {
@@ -171,8 +238,6 @@ public class BinaryTree<E> {
         Node<E> right;
         Node<E> parent;
 
-
-
         public Node(E element, Node<E> parent) {
             this.element = element;
             this.parent = parent;
@@ -186,5 +251,22 @@ public class BinaryTree<E> {
             return left != null && right != null;
         }
 
+        public boolean isLeftChild(){
+            return parent != null && this == parent.left;
+        }
+
+        public boolean isRightChild() {
+            return parent != null && this == parent.right;
+        }
+
+        public Node<E> sibling(){
+            if (isLeftChild()){
+                return parent.right;
+            }
+            if (isRightChild()){
+                return parent.left;
+            }
+            return null;
+        }
     }
 }
