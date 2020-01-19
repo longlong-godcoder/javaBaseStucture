@@ -1,4 +1,7 @@
 package dataStructure.tree;
+/**
+ * Binary Search Tree
+ */
 
 import java.util.Comparator;
 @SuppressWarnings("unchecked")
@@ -12,6 +15,10 @@ public class BST<E> extends BinaryTree<E>{
 
     public BST(Comparator<E> comparator) {
         this.comparator = comparator;
+    }
+
+    public boolean contains(E element){
+        return node(element) != null;
     }
 
     public void add(E element){
@@ -28,7 +35,69 @@ public class BST<E> extends BinaryTree<E>{
         Node<E> parent = root;
         Node<E> node = root;
         int cmp = 0;
+        do {
+            cmp = compare(element, node.element);
+            parent = node;
+            if (cmp > 0){
+                node = node.right;
+            }else if(cmp < 0){
+                node = node.left;
+            }else {
+                node.element = element;
+                return;
+            }
+        }while (node != null);
 
+        Node<E> newNode = createNode(element, parent);
+        if (cmp > 0){
+            parent.right = newNode;
+        }else {
+            parent.left = newNode;
+        }
+        size++;
+        afterAdd(newNode);
+    }
+
+    public void remove(E element){
+        remove(node(element));
+    }
+
+    private void remove(Node<E> node){
+        if (node == null) return;
+
+        size--;
+        if (node.hasTwoChildren()){
+            Node<E> successor = successor(node);
+            node.element = successor.element;
+            node = successor;
+        }
+
+        Node<E> replaceNode = node.left != null ? node.left : node.right;
+        if (replaceNode != null){
+            replaceNode.parent = node.parent;
+
+            if (node.parent == null){
+                root = replaceNode;
+            }else if (node == node.parent.left){
+                node.parent.left = replaceNode;
+            }else {
+                node.parent.right = replaceNode;
+            }
+            afterRemove(replaceNode);
+        }else {
+            //说明删除的叶子节点同时也是根节点
+            if (node.parent == null){
+                root = null;
+                afterRemove(node);
+            }else {
+                if (node == node.parent.left){
+                    node.parent.left = null;
+                }else {
+                    node.parent.right = null;
+                }
+                afterRemove(node);
+            }
+        }
 
     }
 
@@ -45,6 +114,8 @@ public class BST<E> extends BinaryTree<E>{
         }
         return null;
     }
+
+
 
     protected void afterAdd(Node<E> node){
     }
