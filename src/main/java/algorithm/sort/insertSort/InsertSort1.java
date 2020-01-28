@@ -2,7 +2,7 @@ package algorithm.sort.insertSort;
 
 import algorithm.sort.Sort;
 
-public class InsertSort<T extends Comparable<T>> extends Sort<T> {
+public class InsertSort1<T extends Comparable<T>> extends Sort<T> {
 
     @Override
     protected void sort() {
