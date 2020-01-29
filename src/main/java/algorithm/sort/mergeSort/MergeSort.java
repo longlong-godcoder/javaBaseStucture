@@ -1,6 +1,10 @@
 package algorithm.sort.mergeSort;
 
 import algorithm.sort.Sort;
+
+/**
+ * 归并排序的时间复杂度是nlogn，同时显而易见，这么折腾，很难保证稳定性
+ */
 @SuppressWarnings("unchecked")
 public class MergeSort<T extends Comparable<T>> extends Sort<T> {
 
