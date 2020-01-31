@@ -2,6 +2,9 @@ package algorithm.sort.countingSort;
 
 import algorithm.sort.Sort;
 
+/**
+ * 计数排序
+ */
 public class CountingSort extends Sort<Integer> {
 
     @Override
