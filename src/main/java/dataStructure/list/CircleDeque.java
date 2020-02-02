@@ -31,10 +31,10 @@ public class CircleDeque<E>{
     public void enQueueFront(E element){
         ensureCapacity(size + 1);
 
-        front = index(-1);
-        elements[front] = element;
-        size++;
-    }
+    front = index(-1);
+    elements[front] = element;
+    size++;
+}
 
     public E deQueueFront(){
         E frontElement = elements[front];
