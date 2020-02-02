@@ -1,6 +1,5 @@
 package dataStructure.tree;
-
-import utils.printer.BinaryTreeInfo;
+import dataStructure.utils.printer.BinaryTreeInfo;
 
 import java.util.LinkedList;
 import java.util.Queue;
