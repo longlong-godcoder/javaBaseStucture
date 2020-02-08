@@ -1,7 +1,6 @@
 package dataStructure.graph;
 
 /**
- * 图的抽象类
  * 图的分类与常用术语：
  * （顶点vertex， 边edge， G = (V, E)）
  * 1.根据边的方向：无向图，无向图，混合图（有向加无向），出度（从vertex出的有向edge），入度
@@ -14,10 +13,19 @@ package dataStructure.graph;
  * ==========================================================================================
  * 一般采用两种方式实现图：
  * 1.邻接矩阵（Adjacency Matrix）
- * 即一维数组存放vertex，二维数组方阵存放edge表（采用0，1标识方向）
- * 2.
+ * 即一维数组存放vertex，二维数组方阵存放edge表（采用0，1标识方向）；
+ * 显然意见，邻接矩阵这种方式适合有向图，稠密图，这样可以更好的利用二维数组空间不造成浪费
+ * 2.邻接表（Adjacency List）
+ * 即一个元素为链表的数组，通过链表表示边的关系，如果有权值，可以在节点中储存
+ * 显而易见这样比较节省空间
+ */
+
+/**
+ * 图的抽象类
  */
 public abstract class Graph<V, E> {
+
+
 
     public interface WeightManager<E>{
         int compare(E w1, E w2);
